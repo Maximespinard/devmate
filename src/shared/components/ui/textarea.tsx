@@ -1,5 +1,4 @@
 import { forwardRef, useState, useEffect, useRef, useImperativeHandle, type ComponentProps } from "react"
-import { motion, AnimatePresence } from "framer-motion"
 import { X, Maximize2, Minimize2 } from "lucide-react"
 import { cn } from "@/shared/utils/utils"
 
@@ -108,16 +107,12 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         )}
 
         {/* Textarea container with animations */}
-        <motion.div
+        <div
           className={cn(
-            "relative",
+            "relative transition-all duration-300",
+            isShaking && "animate-shake",
             isFullscreen && "fixed inset-4 z-50 bg-background/95 backdrop-blur-xl border border-white/10 rounded-lg p-4"
           )}
-          animate={isShaking ? {
-            x: [-4, 4, -4, 4, -2, 2, -1, 1, 0],
-            transition: { duration: 0.6, ease: "easeInOut" }
-          } : {}}
-          layout
         >
           <div className="flex">
             {/* Line numbers */}
@@ -190,58 +185,47 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
               {/* Action buttons */}
               <div className="absolute top-2 right-2 flex items-center gap-1">
                 {/* Fullscreen toggle */}
-                <motion.button
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
+                <button
                   type="button"
                   onClick={toggleFullscreen}
                   className={cn(
-                    "p-1.5 rounded hover:bg-white/10",
+                    "p-1.5 rounded hover:bg-white/10 hover:scale-110 active:scale-90",
                     "text-muted-foreground hover:text-foreground",
-                    "transition-all duration-200"
+                    "transition-all duration-200 animate-in zoom-in-50"
                   )}
                   title={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
                 >
                   {isFullscreen ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
-                </motion.button>
+                </button>
 
                 {/* Clear button */}
-                <AnimatePresence>
-                  {clearable && hasValue && (
-                    <motion.button
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      transition={{ duration: 0.2 }}
-                      type="button"
-                      onClick={handleClear}
-                      className={cn(
-                        "p-1.5 rounded hover:bg-white/10",
-                        "text-muted-foreground hover:text-foreground",
-                        "transition-all duration-200"
-                      )}
-                      title="Clear content"
-                    >
-                      <X size={14} />
-                    </motion.button>
-                  )}
-                </AnimatePresence>
+                {clearable && hasValue && (
+                  <button
+                    type="button"
+                    onClick={handleClear}
+                    className={cn(
+                      "p-1.5 rounded hover:bg-white/10 hover:scale-110 active:scale-90",
+                      "text-muted-foreground hover:text-foreground",
+                      "transition-all duration-200 animate-in zoom-in-50"
+                    )}
+                    title="Clear content"
+                  >
+                    <X size={14} />
+                  </button>
+                )}
               </div>
 
               {/* Focus border animation */}
-              <motion.div
-                className="absolute inset-0 rounded-md border-2 border-primary/50 pointer-events-none"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={isFocused ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.2 }}
+              <div
+                className={cn(
+                  "absolute inset-0 rounded-md border-2 border-primary/50 pointer-events-none",
+                  "transition-all duration-200",
+                  isFocused ? "opacity-100 scale-100" : "opacity-0 scale-95"
+                )}
               />
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Description, Error, and Character Count */}
         {!isFullscreen && (
@@ -255,72 +239,45 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
               )}
 
               {/* Error message */}
-              <AnimatePresence>
-                {error && (
-                  <motion.p
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
-                    className="text-sm text-destructive font-medium"
-                  >
-                    {error}
-                  </motion.p>
-                )}
-              </AnimatePresence>
+              {error && (
+                <p className="text-sm text-destructive font-medium animate-in fade-in-0 slide-in-from-top-1 duration-200">
+                  {error}
+                </p>
+              )}
             </div>
 
             {/* Character count */}
             {showCharacterCount && maxLength && (
-              <motion.div 
+              <div 
                 className={cn(
-                  "text-xs transition-colors duration-200",
+                  "text-xs transition-all duration-200",
                   characterCount > maxLength * 0.9 ? "text-warning" : "text-muted-foreground",
-                  characterCount >= maxLength && "text-destructive font-medium"
+                  characterCount >= maxLength && "text-destructive font-medium animate-pulse"
                 )}
-                animate={characterCount >= maxLength ? { scale: [1, 1.1, 1] } : {}}
-                transition={{ duration: 0.3 }}
               >
                 {characterCount}/{maxLength}
-              </motion.div>
+              </div>
             )}
           </div>
         )}
 
         {/* Success indicator */}
-        <AnimatePresence>
-          {success && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              className="flex items-center text-green-500 text-sm"
-            >
-              <motion.div
-                initial={{ rotate: 0 }}
-                animate={{ rotate: 360 }}
-                transition={{ duration: 0.5 }}
-                className="w-4 h-4 mr-2"
-              >
-                ✓
-              </motion.div>
-              Valid input
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {success && (
+          <div className="flex items-center text-green-500 text-sm animate-in zoom-in-50 duration-300">
+            <div className="w-4 h-4 mr-2 animate-spin">
+              ✓
+            </div>
+            Valid input
+          </div>
+        )}
 
         {/* Fullscreen overlay */}
-        <AnimatePresence>
-          {isFullscreen && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
-              onClick={toggleFullscreen}
-            />
-          )}
-        </AnimatePresence>
+        {isFullscreen && (
+          <div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 animate-in fade-in-0 duration-200"
+            onClick={toggleFullscreen}
+          />
+        )}
       </div>
     )
   }

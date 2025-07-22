@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import { Copy, Check } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/shared/components/ui/button'
@@ -145,102 +144,61 @@ export function CopyButton({
       title={keyboardShortcut ? `Copy (${keyboardShortcut})` : "Copy to clipboard"}
     >
       {/* Success animation overlay */}
-      <AnimatePresence>
-        {isCopied && (
-          <motion.div
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 0.1 }}
-            exit={{ scale: 0, opacity: 0 }}
-            className="absolute inset-0 bg-green-500 rounded-[inherit]"
-          />
-        )}
-      </AnimatePresence>
+      {isCopied && (
+        <div className="absolute inset-0 bg-green-500 rounded-[inherit] opacity-10 animate-in zoom-in-50 duration-500" />
+      )}
 
       {/* Icon with smooth transition */}
-      <motion.div
-        animate={{
-          scale: isCopied ? [1, 1.2, 1] : 1,
-          rotate: isCopied ? [0, -10, 10, 0] : 0,
-        }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="flex items-center gap-2"
+      <div
+        className={cn(
+          "flex items-center gap-2 transition-all duration-500 ease-in-out",
+          isCopied && "animate-bounce"
+        )}
       >
-        <AnimatePresence mode="wait">
-          {isCopied ? (
-            <motion.div
-              key="check"
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Check 
-                size={16} 
-                className="text-green-500"
-              />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="copy"
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Copy 
-                size={16}
-                className={cn(
-                  "transition-transform duration-200",
-                  isHovering && "scale-110"
-                )}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {isCopied ? (
+          <div className="animate-in zoom-in-50 duration-200">
+            <Check 
+              size={16} 
+              className="text-green-500"
+            />
+          </div>
+        ) : (
+          <div className="animate-in zoom-in-50 duration-200">
+            <Copy 
+              size={16}
+              className={cn(
+                "transition-transform duration-200",
+                isHovering && "scale-110"
+              )}
+            />
+          </div>
+        )}
 
         {/* Text with animation */}
         {showText && (
-          <AnimatePresence mode="wait">
-            <motion.span
-              key={isCopied ? 'copied' : 'copy'}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-              className={cn(
-                "text-sm font-medium",
-                isCopied && "text-green-500"
-              )}
-            >
-              {isCopied ? 'Copied!' : 'Copy'}
-            </motion.span>
-          </AnimatePresence>
+          <span
+            className={cn(
+              "text-sm font-medium transition-all duration-200",
+              "animate-in slide-in-from-bottom-1",
+              isCopied && "text-green-500"
+            )}
+          >
+            {isCopied ? 'Copied!' : 'Copy'}
+          </span>
         )}
-      </motion.div>
+      </div>
 
       {/* Keyboard shortcut hint */}
       {keyboardShortcut && isHovering && !isCopied && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-black/80 text-white text-xs rounded whitespace-nowrap z-10"
-        >
+        <div className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-black/80 text-white text-xs rounded whitespace-nowrap z-10 animate-in zoom-in-50 duration-200">
           {keyboardShortcut}
-        </motion.div>
+        </div>
       )}
 
       {/* Ripple effect on copy */}
-      <AnimatePresence>
-        {isCopied && (
-          <motion.div
-            initial={{ scale: 0, opacity: 0.5 }}
-            animate={{ scale: 2, opacity: 0 }}
-            transition={{ duration: 0.6 }}
-            className="absolute inset-0 border-2 border-green-500 rounded-[inherit]"
-          />
-        )}
-      </AnimatePresence>
+      {isCopied && (
+        <div className="absolute inset-0 border-2 border-green-500 rounded-[inherit] animate-ping" />
+      )}
     </Button>
   )
 }

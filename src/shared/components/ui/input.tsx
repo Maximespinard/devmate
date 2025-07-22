@@ -1,5 +1,4 @@
 import { forwardRef, useState, useEffect, type ComponentProps } from "react"
-import { motion, AnimatePresence } from "framer-motion"
 import { X } from "lucide-react"
 import { cn } from "@/shared/utils/utils"
 
@@ -60,12 +59,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
 
         {/* Input container with animations */}
-        <motion.div
-          className="relative"
-          animate={isShaking ? {
-            x: [-4, 4, -4, 4, -2, 2, -1, 1, 0],
-            transition: { duration: 0.6, ease: "easeInOut" }
-          } : {}}
+        <div 
+          className={cn(
+            "relative transition-all duration-300",
+            isShaking && "animate-shake"
+          )}
         >
           <input
             ref={ref}
@@ -106,35 +104,31 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           />
 
           {/* Clear button */}
-          <AnimatePresence>
-            {clearable && hasValue && (
-              <motion.button
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.2 }}
-                type="button"
-                onClick={handleClear}
-                className={cn(
-                  "absolute right-3 top-1/2 -translate-y-1/2",
-                  "p-1 rounded-full hover:bg-white/10",
-                  "text-muted-foreground hover:text-foreground",
-                  "transition-all duration-200"
-                )}
-              >
-                <X size={14} />
-              </motion.button>
-            )}
-          </AnimatePresence>
+          {clearable && hasValue && (
+            <button
+              type="button"
+              onClick={handleClear}
+              className={cn(
+                "absolute right-3 top-1/2 -translate-y-1/2",
+                "p-1 rounded-full hover:bg-white/10",
+                "text-muted-foreground hover:text-foreground",
+                "transition-all duration-200",
+                "animate-in zoom-in-50 duration-200"
+              )}
+            >
+              <X size={14} />
+            </button>
+          )}
 
           {/* Focus border animation */}
-          <motion.div
-            className="absolute inset-0 rounded-md border-2 border-primary/50 pointer-events-none"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={isFocused ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.2 }}
+          <div
+            className={cn(
+              "absolute inset-0 rounded-md border-2 border-primary/50 pointer-events-none",
+              "transition-all duration-200",
+              isFocused ? "opacity-100 scale-100" : "opacity-0 scale-95"
+            )}
           />
-        </motion.div>
+        </div>
 
         {/* Description, Error, and Character Count */}
         <div className="flex items-center justify-between">
@@ -147,58 +141,36 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             )}
 
             {/* Error message */}
-            <AnimatePresence>
-              {error && (
-                <motion.p
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.2 }}
-                  className="text-sm text-destructive font-medium"
-                >
-                  {error}
-                </motion.p>
-              )}
-            </AnimatePresence>
+            {error && (
+              <p className="text-sm text-destructive font-medium animate-in fade-in-0 slide-in-from-top-1 duration-200">
+                {error}
+              </p>
+            )}
           </div>
 
           {/* Character count */}
           {showCharacterCount && maxLength && (
-            <motion.div 
+            <div 
               className={cn(
-                "text-xs transition-colors duration-200",
+                "text-xs transition-all duration-200",
                 characterCount > maxLength * 0.9 ? "text-warning" : "text-muted-foreground",
-                characterCount >= maxLength && "text-destructive font-medium"
+                characterCount >= maxLength && "text-destructive font-medium animate-pulse"
               )}
-              animate={characterCount >= maxLength ? { scale: [1, 1.1, 1] } : {}}
-              transition={{ duration: 0.3 }}
             >
               {characterCount}/{maxLength}
-            </motion.div>
+            </div>
           )}
         </div>
 
         {/* Success indicator */}
-        <AnimatePresence>
-          {success && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              className="flex items-center text-green-500 text-sm"
-            >
-              <motion.div
-                initial={{ rotate: 0 }}
-                animate={{ rotate: 360 }}
-                transition={{ duration: 0.5 }}
-                className="w-4 h-4 mr-2"
-              >
-                ✓
-              </motion.div>
-              Valid input
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {success && (
+          <div className="flex items-center text-green-500 text-sm animate-in zoom-in-50 duration-300">
+            <div className="w-4 h-4 mr-2 animate-spin">
+              ✓
+            </div>
+            Valid input
+          </div>
+        )}
       </div>
     )
   }

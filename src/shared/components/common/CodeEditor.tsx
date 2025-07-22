@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import { Maximize2, Minimize2 } from 'lucide-react'
 import Prism from 'prismjs'
 import { CopyButton } from './CopyButton'
@@ -164,30 +163,27 @@ export function CodeEditor({
             )}
             
             {allowFullscreen && (
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
+              <button
                 onClick={toggleFullscreen}
-                className="p-1.5 rounded hover:bg-white/10 text-muted-foreground hover:text-foreground transition-all duration-200"
+                className="p-1.5 rounded hover:bg-white/10 hover:scale-110 active:scale-90 text-muted-foreground hover:text-foreground transition-all duration-200"
                 title={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
               >
                 {isFullscreen ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
-              </motion.button>
+              </button>
             )}
           </div>
         </div>
       )}
 
       {/* Code Editor */}
-      <motion.div
+      <div
         className={cn(
           "relative rounded-md border border-white/10 overflow-hidden",
-          "backdrop-blur-xl bg-black/20",
+          "backdrop-blur-xl bg-black/20 transition-all duration-300",
           theme === 'dark' ? 'text-white' : 'text-black',
           isFocused && "ring-2 ring-primary/20 border-primary/30 shadow-lg shadow-primary/10",
           isFullscreen && "fixed inset-4 z-50 bg-background/95 backdrop-blur-xl border-white/20 rounded-lg"
         )}
-        layout
         style={{
           height: isFullscreen ? 'calc(100vh - 2rem)' : height,
           maxHeight: isFullscreen ? 'none' : maxHeight,
@@ -264,16 +260,9 @@ export function CodeEditor({
             )}
 
             {/* Focus indicator */}
-            <AnimatePresence>
-              {isFocused && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="absolute inset-0 border-2 border-primary/30 rounded-[inherit] pointer-events-none"
-                />
-              )}
-            </AnimatePresence>
+            {isFocused && (
+              <div className="absolute inset-0 border-2 border-primary/30 rounded-[inherit] pointer-events-none animate-in fade-in-0 duration-200" />
+            )}
           </div>
         </div>
 
@@ -285,20 +274,15 @@ export function CodeEditor({
             </span>
           </div>
         )}
-      </motion.div>
+      </div>
 
       {/* Fullscreen overlay */}
-      <AnimatePresence>
-        {isFullscreen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
-            onClick={toggleFullscreen}
-          />
-        )}
-      </AnimatePresence>
+      {isFullscreen && (
+        <div
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 animate-in fade-in-0 duration-200"
+          onClick={toggleFullscreen}
+        />
+      )}
     </div>
   )
 }
