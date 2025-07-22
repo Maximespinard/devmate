@@ -6,15 +6,15 @@ import { cn } from '@/shared/utils/utils';
 
 // Tool configuration
 const TOOLS = [
-  { id: 'json', name: 'JSON Formatter', path: '/json', shortcut: '⌘1', description: 'Format and validate JSON data' },
+  { id: 'json-formatter', name: 'JSON Formatter', path: '/json-formatter', shortcut: '⌘1', description: 'Format and validate JSON data' },
   { id: 'base64', name: 'Base64 Encoder/Decoder', path: '/base64', shortcut: '⌘2', description: 'Encode and decode Base64 strings' },
-  { id: 'jwt', name: 'JWT Decoder', path: '/jwt', shortcut: '⌘3', description: 'Decode and inspect JWT tokens' },
-  { id: 'url', name: 'URL Tools', path: '/url', shortcut: '⌘4', description: 'Encode, decode, and parse URLs' },
-  { id: 'hash', name: 'Hash Generator', path: '/hash', shortcut: '⌘5', description: 'Generate MD5, SHA256, and other hashes' },
+  { id: 'jwt-decoder', name: 'JWT Decoder', path: '/jwt-decoder', shortcut: '⌘3', description: 'Decode and inspect JWT tokens' },
+  { id: 'url-tools', name: 'URL Tools', path: '/url-tools', shortcut: '⌘4', description: 'Encode, decode, and parse URLs' },
+  { id: 'hash-generator', name: 'Hash Generator', path: '/hash-generator', shortcut: '⌘5', description: 'Generate MD5, SHA256, and other hashes' },
   { id: 'timestamp', name: 'Timestamp Converter', path: '/timestamp', shortcut: '⌘6', description: 'Convert between timestamp formats' },
-  { id: 'regex', name: 'Regex Tester', path: '/regex', shortcut: '⌘7', description: 'Test regular expressions' },
-  { id: 'diff', name: 'Diff Viewer', path: '/diff', shortcut: '⌘8', description: 'Compare text differences' },
-  { id: 'color', name: 'Color Tools', path: '/color', shortcut: '⌘9', description: 'Convert colors and check contrast' },
+  { id: 'regex-tester', name: 'Regex Tester', path: '/regex-tester', shortcut: '⌘7', description: 'Test regular expressions' },
+  { id: 'diff-viewer', name: 'Diff Viewer', path: '/diff-viewer', shortcut: '⌘8', description: 'Compare text differences' },
+  { id: 'color-tools', name: 'Color Tools', path: '/color-tools', shortcut: '⌘9', description: 'Convert colors and check contrast' },
   { id: 'generators', name: 'Generators', path: '/generators', shortcut: '⌘0', description: 'Generate UUIDs, passwords, and more' },
 ];
 

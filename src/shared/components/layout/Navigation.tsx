@@ -6,16 +6,16 @@ import { cn } from '@/shared/utils/utils';
 
 // Tool configuration
 const TOOLS = [
-  { id: 'json', name: 'JSON', path: '/json', shortcut: '1' },
+  { id: 'json-formatter', name: 'JSON', path: '/json-formatter', shortcut: '1' },
   { id: 'base64', name: 'Base64', path: '/base64', shortcut: '2' },
-  { id: 'jwt', name: 'JWT', path: '/jwt', shortcut: '3' },
-  { id: 'url', name: 'URL', path: '/url', shortcut: '4' },
-  { id: 'hash', name: 'Hash', path: '/hash', shortcut: '5' },
+  { id: 'jwt-decoder', name: 'JWT', path: '/jwt-decoder', shortcut: '3' },
+  { id: 'url-tools', name: 'URL', path: '/url-tools', shortcut: '4' },
+  { id: 'hash-generator', name: 'Hash', path: '/hash-generator', shortcut: '5' },
   { id: 'timestamp', name: 'Time', path: '/timestamp', shortcut: '6' },
-  { id: 'regex', name: 'Regex', path: '/regex', shortcut: '7' },
-  { id: 'diff', name: 'Diff', path: '/diff', shortcut: '8' },
-  { id: 'color', name: 'Color', path: '/color', shortcut: '9' },
-  { id: 'generate', name: 'Generate', path: '/generate', shortcut: '0' },
+  { id: 'regex-tester', name: 'Regex', path: '/regex-tester', shortcut: '7' },
+  { id: 'diff-viewer', name: 'Diff', path: '/diff-viewer', shortcut: '8' },
+  { id: 'color-tools', name: 'Color', path: '/color-tools', shortcut: '9' },
+  { id: 'generators', name: 'Generate', path: '/generators', shortcut: '0' },
 ] as const;
 
 interface NavigationProps {
