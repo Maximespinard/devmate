@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { RootLayout, CommandPalette } from '@/shared/components/layout';
+import { RootLayout, AppShell, CommandPalette } from '@/shared/components/layout';
 import { useCommandPalette, usePWA } from '@/shared/hooks';
 
 export function AppLayout() {
@@ -19,7 +19,9 @@ export function AppLayout() {
 
   return (
     <RootLayout>
-      <Outlet />
+      <AppShell onCommandPaletteOpen={commandPalette.open}>
+        <Outlet />
+      </AppShell>
       
       {/* Command Palette */}
       <CommandPalette 

@@ -1,9 +1,9 @@
 import { lazy } from 'react';
 import type { RouteObject } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { AppLayout } from './AppLayout';
 
 // Lazy load pages for better performance
-const HomePage = lazy(() => import('@/pages/HomePage'));
 const JsonFormatterPage = lazy(() => import('@/pages/JsonFormatterPage'));
 const Base64Page = lazy(() => import('@/pages/Base64Page'));
 const JwtDecoderPage = lazy(() => import('@/pages/JwtDecoderPage'));
@@ -23,7 +23,7 @@ export const routes: RouteObject[] = [
     children: [
       {
         index: true,
-        element: <HomePage />,
+        element: <Navigate to="/json-formatter" replace />,
       },
       {
         path: 'json-formatter',

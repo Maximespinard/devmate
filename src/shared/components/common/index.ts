@@ -6,3 +6,4 @@ export { FileUpload } from './FileUpload';
 export { EmptyState, EmptyStates } from './EmptyState';
 export { ErrorBoundary, useErrorBoundary, type ErrorFallbackProps } from './ErrorBoundary';
 export { SmartInput, detectContentType, type ContentType, type DetectionResult } from './SmartInput';
+export { ToolCard } from './ToolCard';

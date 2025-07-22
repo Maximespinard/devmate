@@ -34,19 +34,19 @@
 }
 
 :root {
-  /* Premium dark theme colors */
+  /* True Dark Mode - Premium & Authentic */
   --radius: 0.5rem;
   
-  /* Backgrounds - Almost black with subtle differences */
-  --background: 0 0% 3.9%;
+  /* Backgrounds - Really dark */
+  --background: 0 0% 2%;
   --foreground: 0 0% 98%;
   
   /* Card backgrounds */
-  --card: 0 0% 8%;
+  --card: 0 0% 4%;
   --card-foreground: 0 0% 98%;
   
   /* Popover */
-  --popover: 0 0% 8%;
+  --popover: 0 0% 4%;
   --popover-foreground: 0 0% 98%;
   
   /* Primary - Electric blue */
@@ -57,9 +57,9 @@
   --secondary: 271 91% 65%;
   --secondary-foreground: 0 0% 98%;
   
-  /* Muted */
-  --muted: 0 0% 15%;
-  --muted-foreground: 0 0% 63.9%;
+  /* Muted - Subtle but visible */
+  --muted: 0 0% 8%;
+  --muted-foreground: 0 0% 70%;
   
   /* Accent */
   --accent: 271 91% 65%;
@@ -69,9 +69,9 @@
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 98%;
   
-  /* Borders and inputs */
-  --border: 0 0% 14.9%;
-  --input: 0 0% 14.9%;
+  /* Borders and inputs - Subtle */
+  --border: 0 0% 8%;
+  --input: 0 0% 8%;
   --ring: 217 91% 60%;
   
   /* Success/Warning/Info */
@@ -94,7 +94,18 @@
   
   body {
     @apply bg-background text-foreground;
+    color: white !important;
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* Force white text everywhere for dark mode */
+  * {
+    color: inherit;
+  }
+  
+  /* Ensure specific elements use white text */
+  h1, h2, h3, h4, h5, h6, p, span, div, button, a {
+    color: white;
   }
   
   /* Premium scrollbar */
@@ -231,8 +242,8 @@
   bottom: 0;
   background-color: hsl(var(--background));
   background-image: 
-    radial-gradient(at 47% 33%, hsl(217, 91%, 20%) 0, transparent 59%),
-    radial-gradient(at 82% 65%, hsl(271, 91%, 15%) 0, transparent 55%);
+    radial-gradient(at 47% 33%, hsl(217, 91%, 8%) 0, transparent 70%),
+    radial-gradient(at 82% 65%, hsl(271, 91%, 6%) 0, transparent 65%);
   z-index: -1;
 }
 
@@ -274,4 +285,31 @@
   transition-property: transform;
   transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   transition-duration: 200ms;
+}
+
+/* Animated gradient text */
+.animate-gradient-x {
+  animation: gradient-x 3s ease-in-out infinite;
+}
+
+@keyframes gradient-x {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.bg-300\% {
+  background-size: 300% 300%;
+}
+
+/* Safe area support for mobile */
+.safe-area-pb {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-area-pt {
+  padding-top: env(safe-area-inset-top);
 }

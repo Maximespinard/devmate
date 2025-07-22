@@ -190,7 +190,7 @@ const Tooltip = ({
         window.removeEventListener('resize', handleResize)
       }
     }
-  }, [open, side, align])
+  }, [open, side, align, updatePosition])
 
   useEffect(() => {
     return () => {
@@ -205,7 +205,7 @@ const Tooltip = ({
 
   const trigger = (
     <span
-      ref={triggerRef as any}
+      ref={triggerRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onFocus={() => {
@@ -283,7 +283,7 @@ const TooltipTrigger = forwardRef<HTMLButtonElement, ComponentProps<"button">>(
 TooltipTrigger.displayName = "TooltipTrigger"
 
 const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
-  ({ className, side = "top", ...props }, ref) => (
+  ({ className, ...props }, ref) => (
     <div
       ref={ref}
       className={cn(
