@@ -1,17 +1,18 @@
 import { BrowserRouter } from 'react-router-dom';
-import { RootLayout } from '@/shared/components/layout';
+import { RootLayout, CommandPalette } from '@/shared/components/layout';
 import {
   ErrorBoundary,
   LocalStorageProvider,
 } from '@/shared/components/providers';
 import { useAppSettings } from '@/shared/hooks/useAppSettings';
-import { useURLState } from '@/shared/hooks';
+import { useURLState, useCommandPalette } from '@/shared/hooks';
 
 function AppContent() {
   const { settings, updateSettings } = useAppSettings();
   const [activeTab, setActiveTab] = useURLState<string>('tab', {
     defaultValue: 'home',
   });
+  const commandPalette = useCommandPalette();
 
   return (
     <RootLayout>
@@ -67,10 +68,19 @@ function AppContent() {
                 background, LocalStorage provider, URL state management, and
                 Error Boundary wrapper.
               </p>
+              <p className="text-sm text-muted-foreground mt-2">
+                Press <kbd className="px-2 py-1 text-xs bg-white/10 rounded border border-white/20">⌘K</kbd> to open the command palette.
+              </p>
             </div>
           </div>
         </div>
       </div>
+      
+      {/* Command Palette */}
+      <CommandPalette 
+        isOpen={commandPalette.isOpen} 
+        onClose={commandPalette.close} 
+      />
     </RootLayout>
   );
 }
