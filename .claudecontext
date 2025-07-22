@@ -1,0 +1,27 @@
+# .claudecontext
+# This file tells Claude Code to always read these files
+
+include:
+  - docs/CLAUDE.md
+  - docs/CHECKLIST.md
+  - docs/DESIGN-SYSTEM.md
+  - package.json
+  - src/shared/types/index.ts
+
+# Optional: exclude files
+exclude:
+  - node_modules/**
+  - dist/**
+  - .git/**
+  - '*.log'
+
+# Instructions for Claude
+instructions: |
+  Always follow the patterns in CLAUDE.md.
+  Check CHECKLIST.md for current progress.
+  Apply DESIGN-SYSTEM.md for all UI work.
+  After each task completion:
+  1. STOP and ask for testing
+  2. Propose a commit message
+  3. Update CHECKLIST.md
+  4. Continue with next task
